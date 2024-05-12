@@ -152,7 +152,7 @@ public:
 
 
 int main() {
-    Warehouse warehouse(2, 19, 4, 8);
+    Warehouse warehouse(4, 8, 2, 1);
     
     cout << "Use commands (ADD, REMOVE, INFO, EMPTY, EXIT)" << endl;
     cout << "Example: ADD BANANAS 12 B918" << endl;
