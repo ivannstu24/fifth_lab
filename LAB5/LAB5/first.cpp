@@ -17,13 +17,13 @@ public:
             // Проверяем, превышает ли добавляемое количество текущее количество товара
             if (products[productName] + quantity <= 10 && quantity > 0) {
                 products[productName] += quantity;
-                cout << "Добавлено " << quantity << " единиц товара " << productName << " в ячейку " << address << "." << endl; // Вывод сообщения
+                cout << "added " << quantity << " units " << productName << " in cell " << address << "." << endl; // Вывод сообщения
             }
             else if (quantity <= 0) {
-                cout << "Нельзя добавить неположительное количество товара (" << productName << ") в ячейку " << address << "." << endl;
+                cout << "You cannot add a non-positive quantity of an item (" << productName << ") in cell " << address << "." << endl;
             }
             else {
-                cout << "Превышено максимальное количество товара (" << productName << ") в ячейке " << address << "." << endl;
+                cout << "Maximum quantity exceeded (" << productName << ") in cell " << address << "." << endl;
             }
         }
         else {
@@ -34,13 +34,13 @@ public:
             }
             if (totalQuantity + quantity <= 10 && totalQuantity + quantity > 0) {
                 products[productName] = quantity; // Добавляем товар
-                cout << "Добавлено " << quantity << " единиц товара " << productName << " в ячейку " << address << "." << endl; // Вывод сообщения
+                cout << "added " << quantity << " units " << productName << " in cell " << address << "." << endl; // Вывод сообщения
             }
             else if (totalQuantity + quantity <= 0) {
-                cout << "Нельзя добавить неположительное количество товара (" << productName << ") в ячейку " << address << "." << endl;
+                cout << "You cannot add a non-positive quantity of an item (" << productName << ") in cell " << address << "." << endl;
             }
             else {
-                cout << "Превышено максимальное количество товара (" << productName << ") в ячейке " << address << "." << endl;
+                cout << "Maximum quantity exceeded (" << productName << ") in cell " << address << "." << endl;
             }
         }
     }
@@ -52,16 +52,16 @@ public:
             if (products[productName] == 0) {
                 products.erase(productName);
             }
-            cout << "Убрано " << quantity << " единиц товара " << productName << " из ячейки " << address << "." << endl; // Вывод сообщения
+            cout << "Removed " << quantity << " units " << productName << " from cell " << address << "." << endl; // Вывод сообщения
         }
         else {
-            cout << "Невозможно убрать " << quantity << " единиц товара " << productName << " из ячейки " << address << "." << endl; // Вывод сообщения
+            cout << "Can not remove" << quantity << " units " << productName << " from cell " << address << "." << endl; // Вывод сообщения
         }
     }
 
     void showContents() { // Метод для отображения содержимого ячейки
         if (!products.empty()) {
-            cout << "Содержимое ячейки " << address << ":" << endl;
+            cout << "Cell contents " << address << ":" << endl;
             for (const auto& entry : products) {
                 cout << "- " << entry.first << ": " << entry.second << " шт." << endl;
             }
@@ -80,19 +80,20 @@ public:
 
     Warehouse(int z, int spz, int sps, int sc) : zones(z), shelvesPerZone(spz), sectionsPerShelf(sps), shelvesCapacity(sc) { // Конструктор принимает параметры
         totalCapacity = zones * shelvesPerZone * sectionsPerShelf * shelvesCapacity; // Вычисление общей вместимости склада
-
+        
         // Вложенные циклы для инициализации ячеек на складе
-        for (int zone = 1; zone <= zones; ++zone) {
-            for (int shelf = 1; shelf <= shelvesPerZone; ++shelf) {
-                for (int section = 1; section <= sectionsPerShelf; ++section) {
-                    for (int shelfPosition = 1; shelfPosition <= shelvesCapacity; ++shelfPosition) {
-
-                        string address = "";
-                        address += char('A' + zone - 1);
-                        address += to_string(shelf);
-                        address += to_string(section);
-                        address += to_string(shelfPosition);
-                            cells[address] = new Cell(address); // Создание новой ячейки и добавление ее в карту
+        for (int zone = 1; zone <= zones; ++zone) {  // Цикл для прохода по зонам
+            for (int shelf = 1; shelf <= shelvesPerZone; ++shelf) {  // Цикл для прохода по полкам в каждой зоне
+                for (int section = 1; section <= sectionsPerShelf; ++section) {  // Цикл для прохода по секциям на каждой полке
+                    for (int shelfPosition = 1; shelfPosition <= shelvesCapacity; ++shelfPosition) {  // Цикл для прохода по позициям на полке
+                        
+                        string address = "";  // Инициализация строки адреса
+                        address += char('A' + zone - 1);  // Добавление символа зоны к адресу
+                        address += to_string(shelf);  // Добавление номера полки к адресу
+                        address += to_string(section);  // Добавление номера секции к адресу
+                        address += to_string(shelfPosition);  // Добавление позиции на полке к адресу
+                        cells[address] = new Cell(address);  // Создание новой ячейки и добавление ее в карту
+                        
                     }
                 }
             }
@@ -101,7 +102,7 @@ public:
 
     void addProduct(string productName, int quantity, string cellAddress) { // Метод для добавления товара в ячейку
         if (cells.find(cellAddress) == cells.end()) {
-            cout << "Ячейка не существует." << endl; // Вывод сообщения, если ячейка не существует
+            cout << "Cell is not exist." << endl; // Вывод сообщения, если ячейка не существует
             return;
         }
         cells[cellAddress]->addProduct(productName, quantity); // Вызов метода addProduct ячейки
@@ -109,7 +110,7 @@ public:
 
     void removeProduct(string productName, int quantity, string cellAddress) { // Метод для удаления товара из ячейки
         if (cells.find(cellAddress) == cells.end()) {
-            cout << "Ячейка не существует." << endl; // Вывод сообщения, если ячейка не существует
+            cout << "Cell is not exist." << endl; // Вывод сообщения, если ячейка не существует
             return;
         }
         cells[cellAddress]->removeProduct(productName, quantity); // Вызов метода removeProduct ячейки
@@ -132,15 +133,15 @@ public:
         }
 
         double filledPercentage = (static_cast<double>(totalFilledCapacity) / totalCapacity) * 100.0; // Вычисление процента заполнения
-        cout << "Склад заполнен на " << filledPercentage << "%." << endl; // Вывод процента заполнения
-        cout << "Содержимое заполненных ячеек:" << endl;
+        cout << "The warehouse is filled to " << filledPercentage << "%." << endl; // Вывод процента заполнения
+        cout << "Contents of filled cells:" << endl;
         for (const auto& cell : filledCells) {
             cell->showContents(); // Отображение содержимого заполненных ячеек
         }
     }
 
     void showEmptyCells() { // Метод для отображения пустых ячеек
-        cout << "Пустые ячейки:" << endl;
+        cout << "Empty cells:" << endl;
         for (const auto& entry : cells) {
             if (entry.second->products.empty()) {
                 cout << entry.first << endl; // Вывод адреса пустой ячейки
@@ -152,36 +153,21 @@ public:
 
 int main() {
     Warehouse warehouse(2, 19, 4, 8);
+    
+    cout << "Use commands (ADD, REMOVE, INFO, EMPTY, EXIT)" << endl;
+    cout << "Example: ADD BANANAS 12 B918" << endl;
 
-    cout << "Для добавления товара в ячейку используйте команду ADD <наименование товара> <количество> <адрес ячейки>." << endl;
-    cout << "Пример: ADD Апельсины 8 А1739" << endl;
-    cout << "Для удаления товара из ячейки используйте команду REMOVE <наименование товара> <количество> <адрес ячейки>." << endl;
-    cout << "Пример: REMOVE Апельсины 3 А1739" << endl;
-    cout << "Для получения информации о состоянии заполненных ячеек склада используйте команду INFO." << endl;
-    cout << "Для получения списка пустых ячеек используйте команду EMPTY." << endl;
-    cout << "Команда HELP - выводит инструкцию по вводу." << endl;
-    cout << "Команда EXIT - завершает программу." << endl;
 
     string command; // Строка для хранения команды пользователя
 
     while (true) {
-        cout << ">>> "; // Подсказка для ввода команды
+        cout << ">>"; // Подсказка для ввода команды
         cin >> command; // Считывание команды пользователя из ввода
 
         if (command == "EXIT") { // Проверка, хочет ли пользователь выйти
             break; // Выход из цикла
         }
-        else if (command == "HELP") { // Проверка, хочет ли пользователь получить помощь
-            // Вывод инструкций для помощи
-            cout << "Для добавления товара в ячейку используйте команду ADD <наименование товара> <количество> <адрес ячейки>." << endl;
-            cout << "Пример: ADD Апельсины 8 А1739" << endl;
-            cout << "Для удаления товара из ячейки используйте команду REMOVE <наименование товара> <количество> <адрес ячейки>." << endl;
-            cout << "Пример: REMOVE Апельсины 3 А1739" << endl;
-            cout << "Для получения информации о состоянии заполненных ячеек склада используйте команду INFO." << endl;
-            cout << "Для получения списка пустых ячеек используйте команду EMPTY." << endl;
-            cout << "Команда HELP - выводит инструкцию по вводу." << endl;
-            cout << "Команда EXIT - завершает программу." << endl;
-        }
+        
         else if (command.find("ADD") == 0) { // Проверка, хочет ли пользователь добавить товар
             string productName;
             int quantity;
@@ -203,7 +189,7 @@ int main() {
             warehouse.showEmptyCells(); // Вызов метода showEmptyCells склада
         }
         else {
-            cout << "Неизвестная команда." << endl; // Вывод сообщения о неизвестной команде
+            cout << "Invalid command!" << endl; // Вывод сообщения о неизвестной команде
         }
     }
     return 0;
